@@ -9,8 +9,8 @@ var minutesAway = "";
 // jQuery global variables
 var elTrain = $("#train-name");
 var elTrainDestination = $("#train-destination");
-// form validation for Time using jQuery Mask plugin
-var elTrainTime = $("#train-time").mask;
+
+var elTrainTime = $("#train-time");
 var elTimeFreq = $("#time-freq");
 
 
@@ -85,7 +85,7 @@ var storeInputs = function(event) {
     // get & store input values
     trainName = elTrain.val().trim();
     trainDestination = elTrainDestination.val().trim();
-    trainTime = moment(elTrainTime.val().trim(), "HH:mm").subtract(1, "years").format("X");
+    
     trainFrequency = elTimeFreq.val().trim();
 
     // add to firebase database
