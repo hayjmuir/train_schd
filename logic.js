@@ -85,7 +85,7 @@ var storeInputs = function(event) {
     // get & store input values
     trainName = elTrain.val().trim();
     trainDestination = elTrainDestination.val().trim();
-    
+    trainTime = moment(elTrainTime.val().trim(), "HH:mm").subtract(1, "years").format("X");
     trainFrequency = elTimeFreq.val().trim();
 
     // add to firebase database
