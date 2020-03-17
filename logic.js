@@ -10,8 +10,8 @@ var minutesAway = "";
 var elTrain = $("#train-name");
 var elTrainDestination = $("#train-destination");
 // form validation for Time using jQuery Mask plugin
-var elTrainTime = $("#train-time").mask("00:00");
-var elTimeFreq = $("#time-freq").mask("00");
+var elTrainTime = $("#train-time").mask;
+var elTimeFreq = $("#time-freq");
 
 
 // Initialize Firebase
@@ -31,8 +31,10 @@ firebase.initializeApp(firebaseConfig);
 // Assign the reference to the database to a variable named 'database'
 var database = firebase.database();
 
-firebase.database().ref("child/path" , function(snapshot) {
+database.ref().on("child_added" , function(snapshot)  {
 
+    if (!snapshot.exists()) return;
+    console.log(snapshot.val());
     //  create local variables to store the data from firebase
     var trainDiff = 0;
     var trainRemainder = 0;
@@ -77,17 +79,17 @@ firebase.database().ref("child/path" , function(snapshot) {
 
 // function to call the button event, and store the values in the input form
 var storeInputs = function(event) {
-    // prevent from from reseting
+    // prevent from from resetting
     event.preventDefault();
-
+    
     // get & store input values
     trainName = elTrain.val().trim();
     trainDestination = elTrainDestination.val().trim();
     trainTime = moment(elTrainTime.val().trim(), "HH:mm").subtract(1, "years").format("X");
     trainFrequency = elTimeFreq.val().trim();
 
-    // add to firebase databse
-    database.ref("").push({
+    // add to firebase database
+    database.ref().push({
         name: trainName,
         destination: trainDestination,
         time: trainTime,
@@ -98,7 +100,7 @@ var storeInputs = function(event) {
     });
 
     //  alert that train was added
-    alert("Train successuflly added!");
+    alert("Train successfully added!");
 
     //  empty form once submitted
     elTrain.val("");
@@ -106,3 +108,4 @@ var storeInputs = function(event) {
     elTrainTime.val("");
     elTimeFreq.val("");
 };
+$("#btn-add").on("click", storeInputs)
